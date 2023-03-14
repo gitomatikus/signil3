@@ -5,10 +5,12 @@ import { Routes, Route, MemoryRouter } from 'react-router-dom';
 import Question from "./Question/Question";
 import Game from "./Game/Game";
 import Answer from "./Question/Answer";
+import WebSockets from "./Events/Websockets";
 
 function App() {
     return (
         <div>
+            <WebSockets />
             <h1 id={"signil-header"}>SiGnil3</h1>
             <Routes>
                 <Route path="/" element={ <Game />} />

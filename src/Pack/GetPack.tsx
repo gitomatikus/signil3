@@ -7,7 +7,7 @@ function getPack(): Pack {
     let pack = localStorage.getItem('pack');
     if (!pack) {
         const request = new XMLHttpRequest();
-        request.open('GET', 'http://localhost:3000/pack.json', false);  // `false` makes the request synchronous
+        request.open('GET', '/pack.json', false);  // `false` makes the request synchronous
         request.send(null);
         pack = request.responseText;
         localStorage.setItem('pack', pack);

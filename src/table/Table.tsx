@@ -92,9 +92,10 @@ function getTd(cell: Cell): JSX.Element
 
     let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
     let linkUrl = <Link to="/question" state={{ question: cell.question}}> {text}</Link>
+    let classes = isQuestion ? 'signil-cell signil-cell-question' : 'signil-cell signil-cell-theme';
 
 
-    return <td className="signil-cell" key={key}>{showQuestion ? linkUrl : text}</td>
+    return <td className={classes} key={key}>{showQuestion ? linkUrl : text}</td>
 
 }
 export default Table;
