@@ -1,0 +1,31 @@
+
+table td {
+  vertical-align: middle;
+  box-sizing: border-box;
+  border: 1px solid #dee2e6;
+  padding: 0.75rem;
+}
+table {
+  width: 80%;
+  margin-bottom: 1rem;
+  color: #fff !important;
+  border-collapse: collapse;
+}
+.signil-table {
+  margin-left: auto;
+  margin-right: auto;
+}
+body {
+    background-color: #1E5BAA;
+}
+.signil-cell {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  monospace;
+}
