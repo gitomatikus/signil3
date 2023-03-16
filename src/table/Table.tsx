@@ -1,9 +1,10 @@
 import {Pack, Question, QuestionType, Round, Theme} from "../Pack/Pack";
 import './Table.css';
 import GetPack, {getClosedQuestions} from "../Pack/GetPack";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import Muffin from "../apps/Muffin/Muffin";
 import {symlink} from "fs";
+import {useEffect} from "react";
 interface Cell {
     text: string;
     key: string;
@@ -24,7 +25,32 @@ interface TableProps {
     round_number: number;
 }
 
+
 function Table() {
+
+  const navigate = useNavigate();
+
+  function askForAQuestion(cell:Cell) {
+        navigate('/question', {state:{ question: cell.question}});
+  }
+    function getTd(cell: Cell): JSX.Element
+    {
+        let closedQuestions = getClosedQuestions();
+
+        let key = cell.key;
+        let isQuestion = cell.type===CellType.Question;
+        let isEmpty = cell.question?.type === QuestionType.Empty
+        let closed = closedQuestions.includes(parseInt(cell.key));
+
+        let showQuestion = isQuestion && !isEmpty && !closed
+
+        let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
+        let classes = isQuestion ? (showQuestion ? 'signil-cell signil-cell-question hoverable' : 'signil-cell signil-cell-empty') : 'signil-cell signil-cell-theme';
+
+
+        return <td onClick={() => showQuestion ? askForAQuestion(cell) : ''} className={classes} key={key}>{text}</td>
+    }
+
 
     const location = useLocation()
     const {round} = location.state
@@ -40,6 +66,8 @@ function Table() {
         </tbody>
     </table>;
 }
+
+
 
 function getRows(round_number: number, pack: Pack): Row[]
 {
@@ -79,24 +107,5 @@ function getPrice(question: Question): string
     return question.price?.text ?? '-';
 }
 
-function getTd(cell: Cell): JSX.Element
-{
-    let closedQuestions = getClosedQuestions();
-
-    let key = cell.key;
-    let isQuestion = cell.type===CellType.Question;
-    let isEmpty = cell.question?.type === QuestionType.Empty
-    let closed = closedQuestions.includes(parseInt(cell.key));
-
-    let showQuestion = isQuestion && !isEmpty && !closed
-
-    let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
-    let linkUrl = <Link to="/question" state={{ question: cell.question}}> {text}</Link>
-    let classes = isQuestion ? 'signil-cell signil-cell-question' : 'signil-cell signil-cell-theme';
-
-
-    return <td className={classes} key={key}>{showQuestion ? linkUrl : text}</td>
-
-}
 export default Table;
 

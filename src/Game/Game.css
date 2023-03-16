@@ -1,0 +1,6 @@
+.table-and-host {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 5%;
+    margin-left: 0px;
+}

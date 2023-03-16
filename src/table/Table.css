@@ -15,13 +15,14 @@ table {
   margin-left: auto;
   margin-right: auto;
 }
-body {
-    background-color: #1E5BAA;
-}
 .signil-cell {
   text-align: center;
   font-size: 1.5rem;
   color: #fff;
+}
+.hoverable:hover {
+  background-color: #999;
+  cursor: pointer;
 }
 
 

@@ -6,15 +6,16 @@ import Question from "./Question/Question";
 import Game from "./Game/Game";
 import Answer from "./Question/Answer";
 import WebSockets from "./Events/Websockets";
+import InitGame from "./Game/InitGame";
 
 function App() {
     return (
         <div>
             <WebSockets />
-            <h1 id={"signil-header"}>SiGnil3</h1>
+            <div><h1 id={"signil-header"}>SiGnil3</h1></div>
             <Routes>
-                <Route path="/" element={ <Game />} />
-                <Route path="/table" element={ <Table/>} />
+                <Route path="/" element={ <InitGame />} />
+                <Route path="/game" element={ <Game />} />
                 <Route path="/question" element={<Question />} />
                 <Route path="/answer" element={<Answer />} />
                 <Route path="/muffin" element={<Muffin />} />

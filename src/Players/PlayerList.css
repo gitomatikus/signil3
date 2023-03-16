@@ -1,0 +1,50 @@
+.player-card {
+    max-width: 300px !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.player-photo {
+    max-width: 200px !important;
+}
+.player-name  {
+    color: #fff !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+}
+.player-control-name  {
+    color: #fff !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+    justify-content: center;
+}
+.player-control-login  {
+    color: #fff !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+.player-points  {
+    color: #fff !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.player-list {
+ display: flex;
+ flex-wrap: wrap;
+ margin-right: -15px;
+ margin-left: -15px;
+}
+.logout-button:hover {
+    cursor: pointer;
+}
