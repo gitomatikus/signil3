@@ -48,3 +48,11 @@ code {
 .signil-cell-theme {
   width: 45%;
 }
+.question-type{
+  font-size: 20px;
+  color: #60ff89;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+}

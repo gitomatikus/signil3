@@ -11,6 +11,12 @@ import isHost from "../Storage/IsHost";
 import ShowAnswer from "../Control/ShowAnswer";
 import Answer from "./Answer";
 
+const enum QuestionTypesString {
+    'normal' = '',
+    'self' = 'Розмінування',
+    'secret' = 'Кіт у мішку',
+}
+
 
 function QuestionPage() {
 
@@ -61,8 +67,16 @@ function QuestionPage() {
     question.rules.forEach(function (rule: Rule) {
         timer += rule.duration ?? 0;
     });
+    const typeMap = function (type: string) {
+        switch (type) {
+            case 'self': return QuestionTypesString.self;
+            case 'secret': return QuestionTypesString.secret;
+            default: return '';
+        }
+    }
     return (<div>
         <Timer timer={timer} />
+        <div className={"question-type"}>{typeMap(question.type)}</div>
         <div id="signil-question">{ message }</div> <div id={"answer-button"}>{isHost() ? <ShowAnswer question={question} /> : <></>}</div>
         <Candidates question={question}/>
         {isHost() ? <><hr /><span className={"round-name"}>Відповідь:</span> <Answer /> </>: <></>}

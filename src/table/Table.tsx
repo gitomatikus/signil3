@@ -8,6 +8,7 @@ import {gameId, host} from "../Game/InitGame";
 import axios from "axios";
 import getPack from "../Storage/GetPack";
 import {getQuestionById} from "../Storage/GetQuestionById";
+import isHost from "../Storage/IsHost";
 interface Cell {
     text: string;
     key: string;
@@ -53,13 +54,12 @@ function Table(TableProps: TableProps) {
         let isEmpty = cell.question?.type === QuestionType.Empty
         let closed = closedQuestions.includes(parseInt(cell.key));
         let isTheme = cell.type===CellType.Theme;
-
         let showQuestion = isQuestion && !isEmpty && !closed;
-        let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable;
-
+        let conductor = localStorage.getItem('control') === 'true';
+        let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable && (isHost() || conductor);
         let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
         let questionCellClasses = 'signil-cell signil-cell-question';
-        if (hoverable) {
+        if (canChoseQuestion) {
             questionCellClasses += ' hoverable';
         }
         if (cell.question?.id.toString() === selectedQuestion) {

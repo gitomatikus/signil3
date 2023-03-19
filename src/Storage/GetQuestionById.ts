@@ -3,7 +3,6 @@ import getPack from "./GetPack";
 
 export async function getQuestionById(id: string): Promise<Question | null>
 {
-    console.log('getQuestionById: ' + id)
     let chosenQuestion = null;
     let  pack = await getPack();
     pack.rounds.forEach(function (round: Round) {
