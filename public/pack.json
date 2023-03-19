@@ -3,7 +3,7 @@
   "name": "super pack",
   "rounds": [
     {
-      "name": "Pack",
+      "name": "Round name 1",
       "themes": [
         {
           "name": "pes patron",
@@ -210,6 +210,470 @@
               "id": 9,
               "price": {
                 "text": "200",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round Name 2",
+      "themes": [
+        {
+          "name": "theme numero uno",
+          "description": "хто тримає весь район?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  10,
+              "price": {
+                "text": "222",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 5
+                },
+                {
+                  "type": "embedded",
+                  "content": "bulshit 2",
+                  "duration": 1
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "answer Markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id" :  11,
+              "price": {
+                "text": "222",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },
+            {
+              "id" :  12,
+              "type": "empty"
+            }
+          ]
+        },
+        {
+          "name": "theme numero dos",
+          "description": "друга тема?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  13,
+              "price": {
+                "text": "222",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "питання 1 (3 секунди)",
+                  "duration": 3
+                },
+                {
+                  "type": "embedded",
+                  "content": "питання 2 (6 секунд не можна показувати відповідь)",
+                  "duration": 6
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "Відповідь (4 секунди)",
+                  "duration": 4
+                },
+                {
+                  "type": "embedded",
+                  "content": "Уточнення для відповіді (можна одразу закривати)",
+                  "duration": 0
+                }
+              ]
+            },{
+              "id": 14,
+              "price": {
+                "text": "200",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 15,
+              "price": {
+                "text": "200",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "theme numero tres",
+          "description": "друга тема?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  16,
+              "price": {
+                "text": "100",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "питання",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 17,
+              "price": {
+                "text": "\uD83E\uDDC1",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "app",
+                  "content": "/muffin",
+                  "path": "/muffin"
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 18,
+              "price": {
+                "text": "200",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Round Name 3",
+      "themes": [
+        {
+          "name": "hihoz",
+          "description": "хто тримає весь район?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  19,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 5
+                },
+                {
+                  "type": "embedded",
+                  "content": "bulshit 2",
+                  "duration": 1
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "answer Markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id" :  20,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },
+            {
+              "id" :  21,
+              "type": "empty"
+            }
+          ]
+        },
+        {
+          "name": "memoz",
+          "description": "друга тема?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  22,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "питання 1 (3 секунди)",
+                  "duration": 3
+                },
+                {
+                  "type": "embedded",
+                  "content": "питання 2 (6 секунд не можна показувати відповідь)",
+                  "duration": 6
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "Відповідь (4 секунди)",
+                  "duration": 4
+                },
+                {
+                  "type": "embedded",
+                  "content": "Уточнення для відповіді (можна одразу закривати)",
+                  "duration": 0
+                }
+              ]
+            },{
+              "id": 23,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 24,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "booboz",
+          "description": "друга тема?",
+          "ordered": false,
+          "questions": [
+            {
+              "id" :  25,
+              "price": {
+                "text": "333",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "1-300"
+              },
+              "type": "secret",
+              "rules": [
+                {
+                  "type": "embedded",
+                  "content": "питання",
+                  "duration": 3
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 26,
+              "price": {
+                "text": "\uD83E\uDDC1",
+                "correct": 300,
+                "incorrect": -300,
+                "random_range": "null"
+              },
+              "type": "normal",
+              "rules": [
+                {
+                  "type": "app",
+                  "content": "/muffin",
+                  "path": "/muffin"
+                }
+              ],
+              "after_round": [
+                {
+                  "type": "embedded",
+                  "content": "some embedded bullshit/markdown",
+                  "duration": 3
+                }
+              ]
+            },{
+              "id": 27,
+              "price": {
+                "text": "333",
                 "correct": 300,
                 "incorrect": -300,
                 "random_range": "null"

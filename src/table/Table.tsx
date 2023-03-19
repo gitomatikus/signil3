@@ -1,10 +1,13 @@
-import {Pack, Question, QuestionType, Round, Theme} from "../Pack/Pack";
+import {Pack, Question, QuestionType} from "../Pack/Pack";
 import './Table.css';
-import GetPack, {getClosedQuestions} from "../Pack/GetPack";
-import {Link, useLocation, useNavigate} from "react-router-dom";
-import Muffin from "../apps/Muffin/Muffin";
-import {symlink} from "fs";
-import {useEffect} from "react";
+import {getClosedQuestions} from "../Pack/GetPack";
+import {NavigateFunction, useLocation, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getEcho} from "../Events/Echo";
+import {gameId, host} from "../Game/InitGame";
+import axios from "axios";
+import getPack from "../Storage/GetPack";
+import {getQuestionById} from "../Storage/GetQuestionById";
 interface Cell {
     text: string;
     key: string;
@@ -26,12 +29,20 @@ interface TableProps {
 }
 
 
-function Table() {
+function Table(TableProps: TableProps) {
+
+  const [hoverable, setHoverable] = useState<boolean>(true);
+  const [selectedQuestion, setSelectedQuestion] = useState<string|null>(null);
 
   const navigate = useNavigate();
+  useSubscribeToShowQuestion(navigate);
+  useSubscribeToChooseQuestion(setHoverable, setSelectedQuestion)
 
   function askForAQuestion(cell:Cell) {
-        navigate('/question', {state:{ question: cell.question}});
+      axios.post(host() + '/api/question/choose', {
+          game: gameId(),
+            question: cell.question?.id,
+      });
   }
     function getTd(cell: Cell): JSX.Element
     {
@@ -41,37 +52,57 @@ function Table() {
         let isQuestion = cell.type===CellType.Question;
         let isEmpty = cell.question?.type === QuestionType.Empty
         let closed = closedQuestions.includes(parseInt(cell.key));
+        let isTheme = cell.type===CellType.Theme;
 
-        let showQuestion = isQuestion && !isEmpty && !closed
+        let showQuestion = isQuestion && !isEmpty && !closed;
+        let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable;
 
         let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
-        let classes = isQuestion ? (showQuestion ? 'signil-cell signil-cell-question hoverable' : 'signil-cell signil-cell-empty') : 'signil-cell signil-cell-theme';
+        let questionCellClasses = 'signil-cell signil-cell-question';
+        if (hoverable) {
+            questionCellClasses += ' hoverable';
+        }
+        if (cell.question?.id.toString() === selectedQuestion) {
+            questionCellClasses += ' signil-cell-question-asked';
+        }
+        if (isTheme) {
+            questionCellClasses += ' signil-cell-theme';
+        }
+        let classes = isQuestion ? (showQuestion ? questionCellClasses : 'signil-cell signil-cell-empty') : 'signil-cell signil-cell-theme';
 
 
-        return <td onClick={() => showQuestion ? askForAQuestion(cell) : ''} className={classes} key={key}>{text}</td>
+        return <td onClick={() => canChoseQuestion ? askForAQuestion(cell) : ''} className={classes} key={key} id={"cell-"+key}>{text}</td>
     }
 
 
-    const location = useLocation()
-    const {round} = location.state
-    const pack = GetPack;
-    return <table className="signil-table">
+    const round = TableProps.round_number
+    const [pack, setPack] = useState<Pack|null>(null);
+    if (pack) {
+        wrongRoundErrorHandler(pack, round);
+    }
+    useEffect(() => {
+        getPack().then((pack) => setPack(pack));
+    }, []);
+    return <><table className="signil-table">
         <tbody>
         {getRows(round, pack).map((row: Row) =>
             <tr className="signil-row" key={row.key}>
                 {row.cells.map((cell: Cell) =>
                     getTd(cell))}
             </tr>)}
-
         </tbody>
-    </table>;
+    </table>
+        </>
+    ;
 }
 
 
 
-function getRows(round_number: number, pack: Pack): Row[]
+function getRows(round_number: number, pack: Pack|null): Row[]
 {
-
+    if (!pack) {
+        return [];
+    }
     let rows: Row[] = [];
     pack.rounds[round_number].themes.forEach(function (theme, theme_number) {
         rows.push(getRow(pack, round_number, theme_number));
@@ -109,3 +140,46 @@ function getPrice(question: Question): string
 
 export default Table;
 
+
+
+function useSubscribeToShowQuestion(navigate: NavigateFunction) {
+    useEffect(() => {
+        getEcho().channel('game.' + gameId())
+            .listen('ShowQuestion', function (message: any) {
+                getQuestionById(message.question).then((question) => {
+                    if (question) {
+                        navigate('/question', {state: {question: question}})
+                    }
+                });
+            });
+        return () => {
+            getEcho().channel('game.' + gameId()).stopListening('ShowQuestion');
+        }
+    }, [])
+}
+
+
+function useSubscribeToChooseQuestion(changeHoverable: (hoverable: boolean) => void, setSelectedQuestion: (question: string|null) => void) {
+    useEffect(() => {
+        getEcho().channel('game.' + gameId())
+            .listen('ChooseQuestion', function (message: any) {
+                getQuestionById(message.question).then((question) => {
+                    if (question) {
+                        changeHoverable(false);
+                        setSelectedQuestion(question.id.toString());
+                    }
+                });
+            });
+        return () => {
+            getEcho().channel('game.' + gameId()).stopListening('ChooseQuestion');
+        }
+    }, [])
+}
+
+function wrongRoundErrorHandler(pack: Pack, round: number)
+{
+    if (pack.rounds[round] === undefined) {
+        alert('Хз як так вийшло, але такого раунду не існує, повертаю тебе до першого, перезавантаж сторінку');
+        localStorage.setItem('round', '0');
+    }
+}

@@ -15,47 +15,12 @@ export function createSocketConnection() {
     });
 
 
-    window.Echo.channel('game.1')
-        .listen('ChangeRound', function (message) {
-            console.log(message);
-        })
 
-    window.Echo.channel('game.1')
-        .listen('GotAskForAnswer', function(message) {
-            console.log(message)
-        });
-
-    window.Echo.channel('game.1')
-        .listen('ChooseQuestion', function (message) {
-            console.log(message)
-        });
 
     window.Echo.channel('game.1')
         .listen('PackHosted', function (message) {
             console.log(message)
         });
-    window.Echo.channel('game.1')
-        .listen('ChooseQuestion', function (message) {
-            console.log(message)
-        });
-    window.Echo.channel('game.1')
-        .listen('ShowQuestion', function (message) {
-            console.log(message)
-        });
-    window.Echo.channel('game.1')
-        .listen('ShowAnswer', function (message) {
-            console.log(message)
-        });
-    window.Echo.channel('game.1')
-        .listen('HideQuestion', function (message) {
-            console.log(message)
-        })
-
-    window.Echo.channel('game.1')
-        .listen('GotAskForAnswer', function(message) {
-            console.log(message)
-        });
-
     window.Echo.channel('game.1')
         .listen('Media', function(message) {
             console.log(message)

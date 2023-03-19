@@ -43,10 +43,30 @@ a:active { text-decoration: none; }
 #signil-question {
     color: #ffffff;
     font-size: 40px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+
 }
+#timer {
+    color: #bbb;
+    font-size: 60px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
+
+}
+
+
 #signil-answer {
     color: #ffffff;
     font-size: 40px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 #signil-header {
@@ -59,7 +79,16 @@ a:active { text-decoration: none; }
   margin-bottom: -0.5%;
 }
 
+#signil-version {
+    color: rgba(211, 250, 255, 0.75);
+}
 
 body {
   background-color: #1E5BAA;
+}
+
+.footer {
+  height: 30%;
+  width: 100%;
+  margin-top: 100px;
 }

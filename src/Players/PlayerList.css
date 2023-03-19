@@ -10,6 +10,7 @@
     color: #fff !important;
     font-family: 'Nunito', sans-serif;
     font-size: 25px;
+    overflow: hidden;
     font-weight: 500;
 }
 .player-control-name  {
@@ -47,4 +48,24 @@
 }
 .logout-button:hover {
     cursor: pointer;
+}
+
+.candidate {
+    color: #eee !important;
+    font-family: 'Nunito', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 10px;
+    overflow: hidden;
+}
+.candidates-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    flex-direction: column;
+    align-content: space-around;
+}
+.host-login-button {
+    font-size: 15px;
 }

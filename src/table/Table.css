@@ -24,9 +24,27 @@ table {
   background-color: #999;
   cursor: pointer;
 }
+.signil-cell-question-asked {
+  background-color: #999;
+}
 
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
+}
+
+.round-name {
+  color: #fff !important;
+  font-family: 'Nunito', sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  justify-content: center;
+}
+
+.signil-cell-theme {
+  width: 45%;
 }

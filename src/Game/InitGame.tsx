@@ -1,8 +1,6 @@
-import Table from "../table/Table";
-import getPack from "../Pack/GetPack";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {Pack} from "../Pack/Pack";
+import {getPlayer} from "../Players/Player";
 
 
 function InitGame() {

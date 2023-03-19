@@ -2,6 +2,8 @@ import './PlayerList.css';
 import {useState} from "react";
 import {gameId, host} from "../Game/InitGame";
 import axios, {AxiosResponse} from "axios";
+import localforage from "localforage";
+import {useNavigate, useParams} from "react-router-dom";
 
 interface Player {
     name: string;
@@ -9,7 +11,7 @@ interface Player {
 
 export default function Player()
 {
-
+    const navigate = useNavigate();
 
     const [name, setName] = useState('' as string);
     const [authorized, setAuthorized] = useState(false as boolean);
@@ -17,6 +19,11 @@ export default function Player()
         setName(event.target.value);
     }
     const [image, setImage] = useState({} as any);
+    const [isHost, setHost] = useState(false as boolean);
+
+    const handleBecomeHost = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setHost(event.target.checked)
+    }
 
     const selectFile = (event: React.ChangeEvent<HTMLInputElement>) => {
         let files = event.target.files
@@ -32,6 +39,7 @@ export default function Player()
             <div className={"player-control-login"}>
                 <input id={"player-name"} type={"text"} name={"Введіть ім'я"} placeholder={"Ім'я"} onChange={handleNameChange} /><br />
                 <input id={"player-image-picker"} type="file" multiple accept="image/*" onChange={selectFile}/>
+                <label><input id={"player-become-host"} type="checkbox" onChange={handleBecomeHost}/><span className={"host-login-button"}>Хост?</span></label>
                 <button id={"login-button"} name={"Залогінитись"} placeholder={"Залогінитись"} onClick={login} value={"Login"}>Авторизуватись</button>
             </div>
 
@@ -53,6 +61,7 @@ export default function Player()
         data.append('img', image, image.name);
         data.append('game', gameId());
         data.append('username', name);
+        data.append('host', isHost ? '1' : '');
 
         axios.post(host() + '/api/user/', data, {
             headers: {
@@ -63,6 +72,7 @@ export default function Player()
                 localStorage.setItem('player', name);
                 setAuthorized(true);
                 setName(name)
+                navigate('/');
                 return;
             }
         });

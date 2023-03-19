@@ -12,3 +12,12 @@
     font-size: 25px;
     font-weight: 500;
 }
+.control:hover {
+    cursor: pointer;
+}
+.correct {
+    color: #82ff82;
+}
+.incorrect {
+    color: #ff8282;
+}

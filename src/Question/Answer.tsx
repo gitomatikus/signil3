@@ -1,39 +1,35 @@
-import { useLocation } from 'react-router-dom'
-import getPack from "../Pack/GetPack";
-import {Question, Rule, Theme} from "../Pack/Pack";
-import {useCallback, useEffect, useState} from "react";
-import ShowAnswer, {ShowTable} from "./Control";
+import {useLocation} from 'react-router-dom'
+import {Rule} from "../Pack/Pack";
+import {useEffect, useState} from "react";
+import ShowHideQuestionButton from "../Control/ShowHideQuestionButton";
+import isHost from "../Storage/IsHost";
 
 
 
 function AnswerPage() {
 
-    const [visible, setVisible] = useState(false)
     const location = useLocation()
     const { question } = location.state
     const [message, setMessage] = useState('');
 
-
     useEffect(() => {
+        localStorage.removeItem('candidates-'+question.id)
         let timer = 0;
         question.after_round.forEach(function (rule: Rule) {
             showRule(rule)
             timer += rule.duration ?? 0;
         });
-        setTimeout(function() {
-            document.getElementById("go-to-table-button")?.removeAttribute("hidden");
-        }, timer * 1000);
         function showRule(rule: Rule) {
             setTimeout(function() {
-                console.log(rule.content);
                 setMessage(rule.content ?? '');
             }, timer * 1000);
         }
     }, [])
 
-    return (<div><div id="signil-answer">{ message }</div> <div id={"go-to-table-button"} hidden={true}><ShowTable question={question} /></div></div>)
+    return (<div><br /><div id="signil-answer">{ message }</div> <div id={"go-to-table-button"}> {isHost() ? <ShowHideQuestionButton /> : <></>}</div></div>)
 }
 
 
 export default AnswerPage;
+
 
