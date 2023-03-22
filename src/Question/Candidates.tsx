@@ -39,7 +39,6 @@ export default function Candidates(question: QuestionProp) {
 
 function getCandidate(name:string, time:string, key: number, question: Question): JSX.Element {
     let timeInSeconds = (parseInt(time)/1000).toString();
-    let evaluateProps = {question: question, name: name} as QuestionProp;
     return <div key={key} className={"candidate"}>{name}: {(timeInSeconds).toString()} {isHost() ? <Evaluate question={question} name={name} /> : ''}</div>
 }
 function getCurrentTimestamp () {
@@ -67,6 +66,10 @@ function becameCandidate(questionStartTime: number, question: Question)
     axios.post(host()+'/api/ask/answer', {
         time: time.toString(),
         user: getPlayer()?.name,
+        game: gameId()
+    });
+    axios.post(host()+'/api/media', {
+        state: 'pause',
         game: gameId()
     });
 }
@@ -121,6 +124,10 @@ function addCandidateToStorage(candidate: Candidate, question: Question): Candid
 {
     let candidates = getCandidatesFromStorage(question);
     candidates.push(candidate);
-    localStorage.setItem('candidates-' + question.id, JSON.stringify(candidates));
+    let sortedCandidates = candidates.sort(function (a: Candidate, b: Candidate) {
+        return parseInt(a.time) - parseInt(b.time);
+    });
+    console.log(candidates);
+    localStorage.setItem('candidates-' + question.id, JSON.stringify(sortedCandidates));
     return candidates;
 }

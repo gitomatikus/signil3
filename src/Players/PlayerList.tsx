@@ -11,6 +11,7 @@ export interface Player {
     score: string;
     img: string;
     title: string;
+    hash: string;
 }
 export default function PlayerList() {
 
@@ -22,6 +23,8 @@ export default function PlayerList() {
                 let players = message.players;
                 let keys = Object.keys(players);
                 let control = false;
+                let md5 = require('md5');
+
                 keys.forEach((key: string) => {
                     let player = players[key];
                     if (player.host) {
@@ -30,10 +33,11 @@ export default function PlayerList() {
                     if (player.control && player.name === getPlayer()?.name) {
                         control = true;
                     }
+                    player.hash = md5(player.name);
                     playersList.push(players[key]);
                 });
                 localStorage.setItem('control', control ? 'true' : 'false');
-                updatePlayers(playersList, setPlayers);
+                updatePlayers(playersList, setPlayers).then(() => {console.log('updated')});
             });
         setTimeout(triggerPlayersUpdate, 2000, );
         return () => {
@@ -49,10 +53,10 @@ export default function PlayerList() {
 
 
 
-function updatePlayers(players: Player[], setPlayers: any): void
+async function updatePlayers(players: Player[], setPlayers: any): Promise<void>
 {
     setPlayers(players);
-    localforage.setItem('players', players)
+    await localforage.setItem('players', players)
 }
 function getPlayerElement(player: Player): JSX.Element
 {

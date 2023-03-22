@@ -5,11 +5,13 @@ import {useEffect, useState} from "react";
 import Timer from "./Timer";
 import Candidates from "./Candidates";
 import {getEcho} from "../Events/Echo";
-import {gameId} from "../Game/InitGame";
+import {gameId, host} from "../Game/InitGame";
 import {getQuestionById} from "../Storage/GetQuestionById";
 import isHost from "../Storage/IsHost";
 import ShowAnswer from "../Control/ShowAnswer";
 import Answer from "./Answer";
+import axios from "axios";
+import useMediaAutostart, {useMediaControl, useSubscriberToMediaStatus} from "../Control/MediaControl";
 
 const enum QuestionTypesString {
     'normal' = '',
@@ -27,9 +29,13 @@ function QuestionPage() {
     const navigate = useNavigate();
 
     useSubscribeToAnswerShow(navigate);
+    useSubscriberToMediaStatus()
+    useMediaAutostart(message)
+    useMediaControl()
 
     useEffect(() => {
         addClosedQuestions(question.id);
+        localStorage.removeItem('candidates-'+question.id);
 
         let timer = 0;
         question.rules.forEach(function (rule: Rule) {
@@ -61,6 +67,7 @@ function QuestionPage() {
                     }
             }
         }
+
     }, [])
 
     let timer = 0;
@@ -77,9 +84,16 @@ function QuestionPage() {
     return (<div>
         <Timer timer={timer} />
         <div className={"question-type"}>{typeMap(question.type)}</div>
-        <div id="signil-question">{ message }</div> <div id={"answer-button"}>{isHost() ? <ShowAnswer question={question} /> : <></>}</div>
+        <div id="signil-question">
+            <div dangerouslySetInnerHTML={{__html: message}}/>
+        </div>{isHost() ? <>
+        <div id={"answer-button"}> <ShowAnswer question={question} /> </div>
+
+    </>: <></>}
         <Candidates question={question}/>
-        {isHost() ? <><hr /><span className={"round-name"}>Відповідь:</span> <Answer /> </>: <></>}
+        {isHost() ? <><hr /><span className={"round-name"}>Відповідь:</span> <Answer />
+        </>: <></>}
+
     </div>)
 }
 
@@ -105,3 +119,4 @@ function useSubscribeToAnswerShow(navigate: NavigateFunction)
         }
     }, [])
 }
+

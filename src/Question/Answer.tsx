@@ -3,7 +3,7 @@ import {Rule} from "../Pack/Pack";
 import {useEffect, useState} from "react";
 import ShowHideQuestionButton from "../Control/ShowHideQuestionButton";
 import isHost from "../Storage/IsHost";
-
+import useMediaAutostart, {useMediaControl, useSubscriberToMediaStatus} from "../Control/MediaControl";
 
 
 function AnswerPage() {
@@ -11,6 +11,10 @@ function AnswerPage() {
     const location = useLocation()
     const { question } = location.state
     const [message, setMessage] = useState('');
+
+    useSubscriberToMediaStatus()
+    useMediaAutostart(message)
+    useMediaControl()
 
     useEffect(() => {
         localStorage.removeItem('candidates-'+question.id)
@@ -26,7 +30,10 @@ function AnswerPage() {
         }
     }, [])
 
-    return (<div><br /><div id="signil-answer">{ message }</div> <div id={"go-to-table-button"}> {isHost() ? <ShowHideQuestionButton /> : <></>}</div></div>)
+    return (<div><br />
+        <div id="signil-answer">
+            <div dangerouslySetInnerHTML={{__html: message}}/>
+        </div> <div id={"go-to-table-button"}> {isHost() ? <ShowHideQuestionButton /> : <></>}</div></div>)
 }
 
 

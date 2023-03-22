@@ -14,9 +14,6 @@ export function createSocketConnection() {
         host: URL + ':6001'
     });
 
-
-
-
     window.Echo.channel('game.1')
         .listen('PackHosted', function (message) {
             console.log(message)

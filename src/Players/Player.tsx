@@ -4,9 +4,12 @@ import {gameId, host} from "../Game/InitGame";
 import axios, {AxiosResponse} from "axios";
 import localforage from "localforage";
 import {useNavigate, useParams} from "react-router-dom";
+import isHost from "../Storage/IsHost";
+
 
 interface Player {
     name: string;
+    hash: string;
 }
 
 export default function Player()
@@ -19,7 +22,7 @@ export default function Player()
         setName(event.target.value);
     }
     const [image, setImage] = useState({} as any);
-    const [isHost, setHost] = useState(false as boolean);
+    const [isHostCheckbox, setHost] = useState(false as boolean);
 
     const handleBecomeHost = (event: React.ChangeEvent<HTMLInputElement>) => {
         setHost(event.target.checked)
@@ -38,7 +41,7 @@ export default function Player()
         return <div>
             <div className={"player-control-login"}>
                 <input id={"player-name"} type={"text"} name={"Введіть ім'я"} placeholder={"Ім'я"} onChange={handleNameChange} /><br />
-                <input id={"player-image-picker"} type="file" multiple accept="image/*" onChange={selectFile}/>
+                <input id={"player-image-picker"} type="file" accept="image/*" onChange={selectFile}/>
                 <label><input id={"player-become-host"} type="checkbox" onChange={handleBecomeHost}/><span className={"host-login-button"}>Хост?</span></label>
                 <button id={"login-button"} name={"Залогінитись"} placeholder={"Залогінитись"} onClick={login} value={"Login"}>Авторизуватись</button>
             </div>
@@ -48,7 +51,9 @@ export default function Player()
 
     function getPlayerControl(name: string): JSX.Element
     {
-        return <div className={"player-control-name"}><span>{name} </span> <span onClick={logout} className={"logout-button"}> &nbsp;[вийти]</span></div>
+        return <>
+            <div className={"player-control-name"}><span>{name} </span> <span onClick={logout} className={"logout-button"}> &nbsp;[вийти]</span></div>
+        </>
     }
 
     function login()
@@ -61,7 +66,7 @@ export default function Player()
         data.append('img', image, image.name);
         data.append('game', gameId());
         data.append('username', name);
-        data.append('host', isHost ? '1' : '');
+        data.append('host', isHostCheckbox ? '1' : '');
 
         axios.post(host() + '/api/user/', data, {
             headers: {
@@ -97,6 +102,7 @@ export default function Player()
 
 export function getPlayer()
 {
+    let md5 = require('md5');
     let name = localStorage.getItem('player');
-    return  name ? {name: localStorage.getItem('player')} as Player : null;
+    return  name ? {name: localStorage.getItem('player'), hash: md5(name)} as Player : null;
 }

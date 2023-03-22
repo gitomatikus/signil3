@@ -9,11 +9,13 @@ import axios from "axios";
 import getPack from "../Storage/GetPack";
 import {getQuestionById} from "../Storage/GetQuestionById";
 import isHost from "../Storage/IsHost";
+import localforage from "localforage";
 interface Cell {
     text: string;
     key: string;
     type: CellType;
     question?: Question;
+    title?: string;
 }
 
 enum CellType {
@@ -54,6 +56,7 @@ function Table(TableProps: TableProps) {
         let isEmpty = cell.question?.type === QuestionType.Empty
         let closed = closedQuestions.includes(parseInt(cell.key));
         let isTheme = cell.type===CellType.Theme;
+        let title = isTheme ? cell.title : '';
         let showQuestion = isQuestion && !isEmpty && !closed;
         let conductor = localStorage.getItem('control') === 'true';
         let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable && (isHost() || conductor);
@@ -71,7 +74,7 @@ function Table(TableProps: TableProps) {
         let classes = isQuestion ? (showQuestion ? questionCellClasses : 'signil-cell signil-cell-empty') : 'signil-cell signil-cell-theme';
 
 
-        return <td onClick={() => canChoseQuestion ? askForAQuestion(cell) : ''} className={classes} key={key} id={"cell-"+key}>{text}</td>
+        return <td onClick={() => canChoseQuestion ? askForAQuestion(cell) : ''} title={cell.title} className={classes} key={key} id={"cell-"+key}>{text}</td>
     }
 
 
@@ -81,7 +84,14 @@ function Table(TableProps: TableProps) {
         wrongRoundErrorHandler(pack, round);
     }
     useEffect(() => {
-        getPack().then((pack) => setPack(pack));
+        getPack().then((pack) => {
+            if (!pack?.rounds?.[0]?.themes[0]?.questions[0].rules) {
+                alert('pack is corrupted');
+                localforage.removeItem('pack');
+                return;
+            }
+            setPack(pack)
+        });
     }, []);
     return <><table className="signil-table">
         <tbody>
@@ -112,7 +122,7 @@ function getRows(round_number: number, pack: Pack|null): Row[]
 function getRow(pack: Pack, round_number: number, theme_number: number): Row
 {
     let cells: Cell[] = [];
-    cells.push({text: pack.rounds[round_number].themes[theme_number].name, key: 'theme-' + theme_number, type: CellType.Theme} as Cell);
+    cells.push({text: pack.rounds[round_number].themes[theme_number].name, key: 'theme-' + theme_number, type: CellType.Theme, title: pack.rounds[round_number].themes[theme_number].description} as Cell);
     pack.rounds[round_number].themes[theme_number].questions.forEach(function (question: Question, index: number) {
         cells.push(createCell(question));
     });

@@ -15,6 +15,7 @@ export function addClosedQuestions(questionId: number)
 {
     let closedQuestions = getClosedQuestions();
     closedQuestions.push(questionId);
-    localStorage.setItem('closed_questions', JSON.stringify(closedQuestions));
+
+    // localStorage.setItem('closed_questions', JSON.stringify(closedQuestions));
 }
 

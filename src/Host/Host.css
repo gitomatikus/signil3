@@ -21,3 +21,16 @@
 .incorrect {
     color: #ff8282;
 }
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+.custom-file-input::before {
+    content: 'Завантажити пак';
+    color: white;
+}
+
+.custom-file-input::after {
+    content: "пак завантажено";
+    color: white;
+}

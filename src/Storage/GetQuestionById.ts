@@ -5,6 +5,9 @@ export async function getQuestionById(id: string): Promise<Question | null>
 {
     let chosenQuestion = null;
     let  pack = await getPack();
+    if (!pack) {
+        return null;
+    }
     pack.rounds.forEach(function (round: Round) {
         round.themes.forEach(function (theme: Theme) {
             theme.questions.forEach(function (question: Question) {

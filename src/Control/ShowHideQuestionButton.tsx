@@ -1,5 +1,5 @@
 import {Question} from "../Pack/Pack";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 import {gameId, host} from "../Game/InitGame";
 import axios from "axios";
 
