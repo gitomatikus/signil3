@@ -63,7 +63,7 @@ function QuestionPage() {
                     return;
                 case RuleType.App:
                     if (rule.path) {
-                        navigate(rule.path, {state: {content: rule.content}});
+                        navigate(rule.path, {state: {content: rule.content, question: question}});
                     }
             }
         }

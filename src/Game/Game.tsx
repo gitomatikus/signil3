@@ -109,10 +109,14 @@ function usePackHostedSubscriber(progressCallback: any = null)
                     }
                     console.log('this failed')
                     localforage.setItem('pack', pack).then(() => {
+                        localStorage.removeItem('closed_questions')
                         navigator('/')
                     });
                 });
             });
+        return () => {
+            getEcho().channel('game.' + gameId()).stopListening('PackHosted');
+        }
     }, [])
 }
 export async function loadPack(hash: string|null, setDownloadProgress: any = null) {

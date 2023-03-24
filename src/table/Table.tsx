@@ -1,4 +1,4 @@
-import {Pack, Question, QuestionType} from "../Pack/Pack";
+import {Pack, Question, QuestionType, Round} from "../Pack/Pack";
 import './Table.css';
 import {getClosedQuestions} from "../Pack/GetPack";
 import {NavigateFunction, useLocation, useNavigate} from "react-router-dom";
@@ -16,6 +16,8 @@ interface Cell {
     type: CellType;
     question?: Question;
     title?: string;
+    theme_questions: string[];
+    ordered: boolean;
 }
 
 enum CellType {
@@ -25,6 +27,7 @@ enum CellType {
 interface Row {
     key: string;
     cells: Cell[];
+    ordered: boolean
 }
 
 interface TableProps {
@@ -36,6 +39,7 @@ function Table(TableProps: TableProps) {
 
   const [hoverable, setHoverable] = useState<boolean>(true);
   const [selectedQuestion, setSelectedQuestion] = useState<string|null>(null);
+  const [player, setPlayer] = useState<any>(null);
 
   const navigate = useNavigate();
   useSubscribeToShowQuestion(navigate);
@@ -51,20 +55,58 @@ function Table(TableProps: TableProps) {
     {
         let closedQuestions = getClosedQuestions();
 
+
+        let ordered = cell.ordered;
+        let shouldShowOrdered = true;
+        if (ordered) {
+            shouldShowOrdered = false;
+            let themeQuestions = cell.theme_questions
+            let questionId = cell.question?.id;
+            if (themeQuestions[0] === questionId) {
+                shouldShowOrdered = true;
+            } else {
+                let show = true;
+                themeQuestions.forEach((themeQuestionId, index) => {
+                    if (!questionId) {
+                        return;
+                    }
+                    parseInt(themeQuestionId);
+                    if ((parseInt(questionId) <= parseInt(themeQuestionId))) {
+                        return;
+                    }
+                    console.log('ITS A QUESTION' + questionId)
+                    console.log(closedQuestions.includes(parseInt(themeQuestionId)), 'includes')
+                    if (!closedQuestions.includes(parseInt(themeQuestionId))) {
+                        show = false;
+                    }
+                });
+                console.log(show)
+                if (show) {
+                    shouldShowOrdered = true;
+                }
+            }
+        }
+
+
+
         let key = cell.key;
         let isQuestion = cell.type===CellType.Question;
         let isEmpty = cell.question?.type === QuestionType.Empty
         let closed = closedQuestions.includes(parseInt(cell.key));
         let isTheme = cell.type===CellType.Theme;
         let title = isTheme ? cell.title : '';
-        let showQuestion = isQuestion && !isEmpty && !closed;
+        let showQuestion = isQuestion && !isEmpty && !closed ;
         let conductor = localStorage.getItem('control') === 'true';
-        let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable && (isHost() || conductor);
+        let canChoseQuestion = isQuestion && !isEmpty && !closed && hoverable && (isHost() || conductor) && shouldShowOrdered;
         let text = isQuestion ? (showQuestion ? cell.text : '-') : cell.text;
+        if (!shouldShowOrdered) {
+            text = '🔒';
+        }
         let questionCellClasses = 'signil-cell signil-cell-question';
         if (canChoseQuestion) {
             questionCellClasses += ' hoverable';
         }
+
         if (cell.question?.id.toString() === selectedQuestion) {
             questionCellClasses += ' signil-cell-question-asked';
         }
@@ -93,6 +135,7 @@ function Table(TableProps: TableProps) {
             setPack(pack)
         });
     }, []);
+    usePlayMusicTheme(pack, round);
     return <><table className="signil-table">
         <tbody>
         {getRows(round, pack).map((row: Row) =>
@@ -122,20 +165,24 @@ function getRows(round_number: number, pack: Pack|null): Row[]
 function getRow(pack: Pack, round_number: number, theme_number: number): Row
 {
     let cells: Cell[] = [];
+    let ordered  = pack.rounds[round_number].themes[theme_number].ordered;
     cells.push({text: pack.rounds[round_number].themes[theme_number].name, key: 'theme-' + theme_number, type: CellType.Theme, title: pack.rounds[round_number].themes[theme_number].description} as Cell);
+    let themeQuestionIds = pack.rounds[round_number].themes[theme_number].questions.map((question) => question.id);
     pack.rounds[round_number].themes[theme_number].questions.forEach(function (question: Question, index: number) {
-        cells.push(createCell(question));
+        cells.push(createCell(question, themeQuestionIds, ordered));
     });
-    return {key: 'theme-' + theme_number, cells: cells};
+    return {key: 'theme-' + theme_number, cells: cells, ordered: pack.rounds[round_number].themes[theme_number].ordered ?? false};
 }
 
-function createCell(question: Question): Cell
+function createCell(question: Question, themeQuestionId: string[], ordered: boolean): Cell
 {
     return {
         text: getPrice(question),
         key: question.id,
         type: CellType.Question,
-        question: question
+        question: question,
+        theme_questions: themeQuestionId,
+        ordered:ordered
     } as Cell;
 }
 
@@ -192,4 +239,25 @@ function wrongRoundErrorHandler(pack: Pack, round: number)
         alert('Хз як так вийшло, але такого раунду не існує, повертаю тебе до першого, перезавантаж сторінку');
         localStorage.setItem('round', '0');
     }
+}
+
+function usePlayMusicTheme(pack: Pack|null, round_number: number) {
+    useEffect(() => {
+        let musicalPlayer: HTMLAudioElement|null = null;
+        if (!pack) {
+            return;
+        }
+        let payingRound = pack.rounds[round_number];
+
+        if (payingRound.music) {
+            musicalPlayer = new Audio('data:audio/ogg;base64, ' + payingRound.music);
+            musicalPlayer.volume=0.3
+            musicalPlayer.play();
+        }
+        return () => {
+            if (musicalPlayer) {
+                musicalPlayer.pause();
+            }
+        }
+    });
 }

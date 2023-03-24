@@ -10,6 +10,11 @@ import InitGame from "./Game/InitGame";
 import PlayerList from "./Players/PlayerList";
 import Header from "./Game/Header";
 import MuffinResults from "./apps/Muffin/MuffinResults";
+import MiniOsu1 from "./apps/MiniOsu/MiniOsu1";
+import MiniOsuClicker from "./apps/MiniOsu/MiniOsuClicker";
+import MiniOsuFindButton from "./apps/MiniOsu/MiniOsuFindButton";
+import MiniOsuClickerWithTimer from "./apps/MiniOsu/MiniOsuClickerWithTimer";
+import MiniOsuFaker from "./apps/MiniOsu/MiniOsuFaker";
 
 function App() {
 
@@ -25,6 +30,11 @@ function App() {
                     <Route path="/answer" element={<Answer />} />
                     <Route path="/muffin" element={<Muffin />} />
                     <Route path="/muffin-results" element={<MuffinResults />} />
+                    <Route path="/mini-osu" element={<MiniOsu1 />} />
+                    <Route path="/mini-osu-clicker" element={<MiniOsuClicker clickCount={5} />} />
+                    <Route path="/mini-osu-find" element={<MiniOsuFindButton />} />
+                    <Route path="/mini-osu-clicker-timer" element={<MiniOsuClickerWithTimer clickCount={5}/>} />
+                    <Route path="/mini-osu-faker" element={<MiniOsuFaker clickCount={5}/>} />
                 </Routes>
             </MemoryRouter>
             <div className={"footer"}>

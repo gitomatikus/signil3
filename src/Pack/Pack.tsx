@@ -6,6 +6,7 @@ export interface Pack {
 
 export interface Round {
     name:   string;
+    music?:  string;
     themes: Theme[];
 }
 
