@@ -100,3 +100,7 @@ body {
   font-size: calc(10px + 2vmin);
   color: white;
 }
+img {
+    max-height: 500px;
+    width: auto;
+}
