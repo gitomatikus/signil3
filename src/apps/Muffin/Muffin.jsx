@@ -17,5 +17,5 @@ function Muffin () {
 export default Muffin;
 
 export function muffinHost() {
-    return  "http://192.168.0.92:8080/";
+    return  "http://192.168.0.92:8082/";
 }
