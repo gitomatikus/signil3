@@ -22,7 +22,7 @@ function App() {
     return (
         <div>
             <WebSockets />
-            <BrowserRouter>
+            <MemoryRouter>
                 <Header />
                 <Routes>
                     <Route path="/" element={ <InitGame />} />
@@ -38,7 +38,7 @@ function App() {
                     <Route path="/mini-osu-faker" element={<MiniOsuFaker clickCount={5}/>} />
                     <Route path="/find-a-cat" element={<FindACat />} />
                 </Routes>
-            </BrowserRouter>
+            </MemoryRouter>
             <div className={"footer"}>
                 <hr className={"player-list-distinguish"}/>
                 <PlayerList />
