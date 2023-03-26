@@ -15,13 +15,14 @@ import MiniOsuClicker from "./apps/MiniOsu/MiniOsuClicker";
 import MiniOsuFindButton from "./apps/MiniOsu/MiniOsuFindButton";
 import MiniOsuClickerWithTimer from "./apps/MiniOsu/MiniOsuClickerWithTimer";
 import MiniOsuFaker from "./apps/MiniOsu/MiniOsuFaker";
+import FindACat from "./apps/Woolley/FindACat";
 
 function App() {
 
     return (
         <div>
             <WebSockets />
-            <MemoryRouter>
+            <BrowserRouter>
                 <Header />
                 <Routes>
                     <Route path="/" element={ <InitGame />} />
@@ -35,8 +36,9 @@ function App() {
                     <Route path="/mini-osu-find" element={<MiniOsuFindButton />} />
                     <Route path="/mini-osu-clicker-timer" element={<MiniOsuClickerWithTimer clickCount={5}/>} />
                     <Route path="/mini-osu-faker" element={<MiniOsuFaker clickCount={5}/>} />
+                    <Route path="/find-a-cat" element={<FindACat />} />
                 </Routes>
-            </MemoryRouter>
+            </BrowserRouter>
             <div className={"footer"}>
                 <hr className={"player-list-distinguish"}/>
                 <PlayerList />

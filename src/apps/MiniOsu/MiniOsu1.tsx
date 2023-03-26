@@ -52,7 +52,7 @@ export default function MiniOsu1() {
 }
 
 
-function getCurrentTimestamp () {
+export function getCurrentTimestamp () {
     return Date.now()
 }
 
